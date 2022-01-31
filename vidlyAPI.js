@@ -1,15 +1,16 @@
-import express from 'express';
+import express, { urlencoded } from 'express';
+import movieGenres from './movieGenres.js';
+import log from './logger.js';
+import authenticator from './authenticator.js';
+
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'))
 
-const movieGenres = [
-    { id: 1, type: 'horror' },
-    { id: 2, type: 'comedy' },
-    { id: 3, type: 'thriller' },
-    { id: 4, type: 'action' },
-    { id: 5, type: 'romance' }
-];
+app.use(log);
+app.use(authenticator);
 
 app.get('/', (req, res) => {
     res.send('Hello World');
